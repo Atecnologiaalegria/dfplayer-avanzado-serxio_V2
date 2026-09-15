@@ -1,5 +1,6 @@
 {
     "name": "dfplayer-avanzado-serxio",
+    "version": "0.0.1",
     "description": "",
     "dependencies": {
         "core": "*",
