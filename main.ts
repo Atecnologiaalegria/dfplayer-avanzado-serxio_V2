@@ -35,6 +35,24 @@ namespace dfplayerAvanzado {
     }
 
     /**
+     * Reproduce una canción específica de una carpeta concreta
+     */
+    //% block="reproducir carpeta %carpeta pista %pista"
+    //% carpeta.defl=1 pista.defl=1
+    export function reproducirCarpetaPista(carpeta: number, pista: number): void {
+        let buf = pins.createBuffer(8);
+        buf.setNumber(NumberFormat.UInt8LE, 0, 0x7E);
+        buf.setNumber(NumberFormat.UInt8LE, 1, 0xFF);
+        buf.setNumber(NumberFormat.UInt8LE, 2, 0x06);
+        buf.setNumber(NumberFormat.UInt8LE, 3, 0x0F);
+        buf.setNumber(NumberFormat.UInt8LE, 4, 0x00);
+        buf.setNumber(NumberFormat.UInt8LE, 5, carpeta);
+        buf.setNumber(NumberFormat.UInt8LE, 6, pista);
+        buf.setNumber(NumberFormat.UInt8LE, 7, 0xEF);
+        serial.writeBuffer(buf);
+    }
+
+    /**
      * Consulta al DFPlayer el número total de canciones en una carpeta
      */
     //% block="pedir total de canciones de la carpeta %carpeta"
