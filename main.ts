@@ -3,6 +3,9 @@ namespace dfplayerAvanzado {
     let alTerminarHandler: () => void;
     let totalPistas = 0;
 
+    /**
+     * Inicializa la comunicación por puerto serie con el DFPlayer Mini
+     */
     //% block="inicializar DFPlayer en RX %rx TX %tx"
     //% rx.defl=SerialPin.P0 tx.defl=SerialPin.P1
     export function conectar(rx: SerialPin, tx: SerialPin): void {
@@ -22,12 +25,20 @@ namespace dfplayerAvanzado {
         });
     }
 
+    /**
+     * Se ejecuta automáticamente cuando termina de sonar una canción
+     */
     //% block="al terminar canción"
+    //% handlerStatement=1
     export function alTerminarCancion(handler: () => void) {
         alTerminarHandler = handler;
     }
 
+    /**
+     * Consulta al DFPlayer el número total de canciones en una carpeta
+     */
     //% block="pedir total de canciones de la carpeta %carpeta"
+    //% carpeta.defl=1
     export function consultarTotalPistas(carpeta: number): void {
         let buf = pins.createBuffer(8);
         buf.setNumber(NumberFormat.UInt8LE, 0, 0x7E);
@@ -41,6 +52,9 @@ namespace dfplayerAvanzado {
         serial.writeBuffer(buf);
     }
 
+    /**
+     * Devuelve el total de canciones detectadas tras la consulta
+     */
     //% block="total de canciones detectadas"
     export function obtenerTotalPistas(): number {
         return totalPistas;
